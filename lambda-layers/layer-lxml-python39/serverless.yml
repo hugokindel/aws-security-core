@@ -1,0 +1,32 @@
+service: layer-lxml-python39
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  stackName: ${self:service}
+  runtime: python3.9
+  region: eu-west-1
+  deploymentBucket:
+    name: aws-cloud-formation-${self:service}
+    serverSideEncryption: AES256
+
+layers:
+  LxmlForPython39:
+    name: lxml-python39
+    description: LXML library for Python 3.9
+    compatibleRuntimes:
+      - python3.9
+    compatibleArchitectures:
+      - arm64
+    allowedAccounts:
+      - '*'
+    package:
+      artifact: '${self:service}.zip'
+
+resources:
+  Description: >-
+    AWS CloudFormation template for LXML layer for Python 3.9

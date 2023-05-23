@@ -1,0 +1,32 @@
+service: layer-msal-python39
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  stackName: ${self:service}
+  runtime: python3.9
+  region: eu-west-1
+  deploymentBucket:
+    name: aws-cloud-formation-${self:service}
+    serverSideEncryption: AES256
+
+custom:
+  pythonRequirements:
+    layer:
+      name: msal-python39
+      description: MSAL library for Python 3.9
+      compatibleRuntimes:
+        - python3.9
+      compatibleArchitectures:
+        - arm64
+      allowedAccounts:
+        - '*'
+
+resources:
+  Description: >-
+    AWS CloudFormation template for MSAL layer for Python 3.9
